@@ -7,7 +7,11 @@ const i18n = {
     tooltipText1: 'Trascina per modificare, fai clic per rimuovere',
     tooltipText2: 'Trascina per modificare',
   },
-  zh: {
+  "zh-tw": {
+    tooltipText1: '拖動即可更改，點擊即可刪除',
+    tooltipText2: '拖動即可更改',
+  },
+  "zh-cn": {
     tooltipText1: '拖动即可更改，点击即可删除',
     tooltipText2: '拖动即可更改',
   },
