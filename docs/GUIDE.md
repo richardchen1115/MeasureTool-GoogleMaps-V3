@@ -2,6 +2,12 @@
 ## Demo
 [Live Demo](https://www.leafyjava.com/projects/measuretool) hosted on LeafyJava.com
 
+##Compile
+1. Install node.js
+2. Download source zip file & decompress
+3. change to source folder 
+4. npm i
+
 ## Installation
 Use CDN
 ```html
