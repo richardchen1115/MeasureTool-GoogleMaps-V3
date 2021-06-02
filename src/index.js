@@ -19,11 +19,11 @@ const touchTargetRadius = 12;
 
 export default class MeasureTool {
   get lengthText() {
-    return this._helper.formatLength(this._length || 0);
+    return this._helper.formatLength(this._length || 0, Config, this._options.language);
   }
 
   get areaText() {
-    return this._helper.formatArea(this._area || 0);
+    return this._helper.formatArea(this._area || 0, Config, this._options.language);
   }
 
   get length() {
@@ -62,6 +62,7 @@ export default class MeasureTool {
       showAccumulativeLength: true,
       contextMenu: true,
       tooltip: true,
+      showArea : true,
       unit: UnitTypeId.METRIC,
       initialSegments: [],
       language: navigator ? navigator.language : 'en',
@@ -563,7 +564,7 @@ export default class MeasureTool {
         return Helper.transformText(p1, p2);
       })
       .text((d, i) =>
-        this._helper.formatLength(this._helper.computeLengthBetween(d[0], d[1]))
+        this._helper.formatLength(this._helper.computeLengthBetween(d[0], d[1]), Config, this._options.language)
       );
 
     text
@@ -581,7 +582,7 @@ export default class MeasureTool {
         return Helper.transformText(p1, p2);
       })
       .text((d, i) =>
-        this._helper.formatLength(this._helper.computeLengthBetween(d[0], d[1]))
+        this._helper.formatLength(this._helper.computeLengthBetween(d[0], d[1]), Config, this._options.language)
       );
 
     text.exit().remove();
@@ -610,7 +611,7 @@ export default class MeasureTool {
         if (i === this._geometry.nodes.length - 1) {
           this._length = len;
         }
-        return this._helper.formatLength(len);
+        return this._helper.formatLength(len, Config, this._options.language);
       });
 
     text
@@ -635,7 +636,7 @@ export default class MeasureTool {
         if (i === this._geometry.nodes.length - 1) {
           this._length = len;
         }
-        return this._helper.formatLength(len);
+        return this._helper.formatLength(len, Config, this._options.language);
       });
 
     text.exit().remove();
@@ -847,7 +848,7 @@ export default class MeasureTool {
             this._helper.computeLengthBetween(
               this._projectionUtility.svgPointToLatLng([event.x, event.y]),
               d[1]
-            )
+            ), Config, this._options.language
           )
         );
     }
@@ -864,7 +865,7 @@ export default class MeasureTool {
             this._helper.computeLengthBetween(
               d[0],
               this._projectionUtility.svgPointToLatLng([event.x, event.y])
-            )
+            ), Config, this._options.language
           )
         );
     }
@@ -912,7 +913,7 @@ export default class MeasureTool {
       if (index + i === this._geometry.nodes.length - 1) {
         this._length = len;
       }
-      return this._helper.formatLength(len);
+      return this._helper.formatLength(len, Config, this._options.language);
     });
   }
 
@@ -1020,11 +1021,12 @@ export default class MeasureTool {
       }
     }
     this._area = area;
-    if (area > 0) {
+    if (area > 0 && this._options.showArea) {
       this._nodeText
         .select(':last-child')
-        .text(
-          `Total distance: ${this.lengthText}; Total area: ${this.areaText}.`
+        .text(         
+          `${Config.totalDistance(this._options.language)}: ${this.lengthText}; ${Config.totalArea(this._options.language)}: ${this.areaText}`
+          //`Total distance: ${this.lengthText}; Total area: ${this.areaText}.`
         );
     }
   }
@@ -1065,7 +1067,7 @@ export default class MeasureTool {
 
   _updateSegment(d) {
     const len = this._helper.computeLengthBetween(d[0], d[1]);
-    const lenTxt = this._helper.formatLength(len);
+    const lenTxt = this._helper.formatLength(len, Config, this._options.language);
     this._segments.push(new Segment(d[0], d[1], len, lenTxt).toJSON());
   }
 
