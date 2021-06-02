@@ -127,10 +127,10 @@ export default class Helper {
     );
   }
 
-  _formatLengthMetric(value) {
+  _formatLengthMetric(value, config, langCode) {
     let unit;
     if (value / 1000 >= 1) {
-      unit = 'km';
+        unit = config.unit1(langCode);//'km';
       value /= 1000;
     } else {
       unit = 'm';
@@ -138,10 +138,10 @@ export default class Helper {
     return this._numberToLocale(this._roundUp(value, 2)) + ' ' + unit;
   }
 
-  _formatLengthImperial(value) {
+  _formatLengthImperial(value, config, langCode) {
     let unit;
     if (value / 5280 >= 1) {
-      unit = 'mi';
+      unit = config.unit2(langCode);//'mi';
       value /= 5280;
     } else {
       unit = 'ft';
@@ -149,16 +149,16 @@ export default class Helper {
     return this._numberToLocale(this._roundUp(value, 2)) + ' ' + unit;
   }
 
-  _formatLengthNautical(value) {
-    let unit = 'NM';
+  _formatLengthNautical(value, config, langCode) {
+    let unit = config.unit3(langCode);//'NM';
     value /= 1852;
     return this._numberToLocale(this._roundUp(value, 2)) + ' ' + unit;
   }
 
-  _formatAreaMetric(value) {
+  _formatAreaMetric(value, config, langCode) {
     let unit;
     if (value / 1000000 >= 1) {
-      unit = 'km²';
+      unit = config.unit4(langCode);//'km²';
       value /= 1000000;
     } else {
       unit = 'm²';
@@ -166,10 +166,10 @@ export default class Helper {
     return this._numberToLocale(this._roundUp(value, 2)) + ' ' + unit;
   }
 
-  _formatAreaImperial(value) {
+  _formatAreaImperial(value, config, langCode) {
     let unit;
     if (value * 3.587e-8 >= 1) {
-      unit = 'mi²';
+      unit = config.unit5(langCode);//'mi²';
       value *= 3.587e-8;
     } else {
       unit = 'ft²';
